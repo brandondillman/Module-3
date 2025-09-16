@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Magic School AI to Build Students as Scientists - Professional Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f0f4f8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        
+        .tab-button {
+            flex: 1;
+            min-width: 160px;
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95em;
+        }
+        
+        .tab-button:hover {
+            background: #fff3e0;
+            border-color: #ff9800;
+            transform: translateY(-2px);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+            color: white;
+            border-color: #e65100;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section h2 {
+            color: #e65100;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #ff9800;
+            padding-bottom: 15px;
+        }
+        
+        .content-section h3 {
+            color: #ff9800;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+        
+        .tool-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .tool-card h4 {
+            color: #e65100;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .grade-example {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .grade-example h5 {
+            color: #e65100;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .prompt-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+        
+        .prompt-box h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+        
+        .key-points {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .key-points ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .key-points li {
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #ff9800, #e65100);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .reflection-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .reflection-box h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .ai-tip {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .ai-tip h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ai-tip h4::before {
+            content: "🤖";
+            margin-right: 8px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+        
+        .completion-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                min-width: auto;
+                margin-bottom: 10px;
+            }
+            
+            header h1 {
+                font-size: 2.2em;
+            }
+            
+            .content-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Using Magic School AI to Build Students as Scientists</h1>
+            <p>A Professional Development Module for K-5 Educators</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('getting-started')">Getting Started</button>
+            <button class="tab-button" onclick="showTab('kindergarten')">Kindergarten</button>
+            <button class="tab-button" onclick="showTab('grade1')">Grade 1</button>
+            <button class="tab-button" onclick="showTab('grade2')">Grade 2</button>
+            <button class="tab-button" onclick="showTab('grade3')">Grade 3</button>
+            <button class="tab-button" onclick="showTab('grade4')">Grade 4</button>
+            <button class="tab-button" onclick="showTab('grade5')">Grade 5</button>
+            <button class="tab-button" onclick="showTab('implementation')">Implementation</button>
+        </nav>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <div id="overview" class="content-section active">
+            <h2>Leveraging Magic School AI for Scientific Learning</h2>
+            
+            <p style="font-size: 1.1em; margin-bottom: 25px;">Magic School AI offers powerful tools to <strong>generate inquiry-based lesson plans, create differentiated learning materials, and design assessments that focus on scientific practices</strong>. Both teacher-facing tools and the MagicStudent platform help streamline your planning while creating engaging, interactive experiences for your students.</p>
+            
+            <div class="key-points">
+                <h3>How Magic School AI Develops Students as Scientists</h3>
+                <ul>
+                    <li><strong>Inquiry-Based Learning Design</strong>: Generate complete lesson plans that lead students through authentic scientific investigations</li>
+                    <li><strong>Data Analysis Practice</strong>: Create realistic datasets for students to analyze and draw conclusions from</li>
+                    <li><strong>Differentiated Materials</strong>: Automatically adjust content complexity for different learners</li>
+                    <li><strong>Assessment Innovation</strong>: Design rubrics that focus on scientific practices rather than just content recall</li>
+                    <li><strong>Higher-Order Thinking</strong>: Generate questions that push students beyond memorization to true scientific reasoning</li>
+                </ul>
+            </div>
+
+            <div class="ai-tip">
+                <h4>AI Teaching Tip</h4>
+                <p>Magic School AI is most effective when you provide specific, detailed prompts. Instead of asking for "a science lesson," specify the grade level, topic, scientific practice focus, and desired activities.</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Key Magic School AI Tools for Science Education</h4>
+                <ul>
+                    <li><strong>5E Model Lesson Plan Generator</strong>: Creates complete inquiry-based science units</li>
+                    <li><strong>Science Labs Generator</strong>: Designs hands-on investigations</li>
+                    <li><strong>Data Table Analysis Generator</strong>: Creates realistic datasets for analysis practice</li>
+                    <li><strong>DOK Question Generator</strong>: Develops higher-level thinking questions</li>
+                    <li><strong>Rubric Generator</strong>: Assesses scientific practices and skills</li>
+                    <li><strong>Project Based Learning Tool</strong>: Designs extended scientific investigations</li>
+                </ul>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>What challenges do you currently face in creating inquiry-based science lessons, and how might AI tools help address these challenges?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="getting-started" class="content-section">
+            <h2>Getting Started with Magic School AI for Science</h2>
+            
+            <div class="tool-card">
+                <h4>Setting Up Your Magic School AI Account</h4>
+                <ol>
+                    <li>Visit magicschool.ai and create your free educator account</li>
+                    <li>Explore the tool library and bookmark science-relevant generators</li>
+                    <li>Start with the 5E Model Lesson Plan Generator for your first science lesson</li>
+                    <li>Practice writing specific, detailed prompts for better results</li>
+                </ol>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Prompt Writing Best Practices</h4>
+                <ul>
+                    <li><strong>Be Specific</strong>: Include grade level, topic, and learning objectives</li>
+                    <li><strong>Mention Materials</strong>: Specify available resources and time constraints</li>
+                    <li><strong>Include Context</strong>: Describe your students' prior knowledge and needs</li>
+                    <li><strong>Request Examples</strong>: Ask for sample questions, activities, or assessments</li>
+                    <li><strong>Iterate</strong>: Refine prompts based on the initial output</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Sample Effective Prompt:</h4>
+                <p>"Create a 5E lesson plan for 3rd graders learning about plant life cycles. Include hands-on activities where students can observe real seeds and seedlings. The 'Explore' phase should involve students making predictions about what plants need to grow. Provide specific vocabulary terms for the 'Explain' phase and a simple data collection sheet for tracking plant growth over two weeks."</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Planning Your First AI-Generated Science Lesson</h4>
+                <ol>
+                    <li><strong>Choose Your Focus</strong>: Select a specific NC standard and scientific practice</li>
+                    <li><strong>Identify Resources</strong>: Note available materials, time, and space constraints</li>
+                    <li><strong>Write Your Prompt</strong>: Use the best practices above</li>
+                    <li><strong>Generate and Review</strong>: Create the lesson and adapt to your needs</li>
+                    <li><strong>Test and Refine</strong>: Try the lesson and modify for future use</li>
+                </ol>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>What is one science topic you teach that you'd like to redesign using AI tools? What specific outcome are you hoping to achieve?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="kindergarten" class="content-section">
+            <h2>Kindergarten: AI Tools for Beginning Scientists</h2>
+            
+            <div class="key-points">
+                <h3>Kindergarten Science Focus Areas</h3>
+                <ul>
+                    <li><strong>Observable Properties</strong>: Using senses to describe and classify objects</li>
+                    <li><strong>Motion and Position</strong>: Exploring how things move and change position</li>
+                    <li><strong>Living vs. Nonliving</strong>: Identifying characteristics of life</li>
+                    <li><strong>Weather Patterns</strong>: Observing and recording daily changes</li>
+                </ul>
+            </div>
+
+            <div class="grade-example">
+                <h5>AI-Generated Lesson Example: "What Makes Things Move?"</h5>
+                <p><strong>Using 5E Model Lesson Plan Generator:</p>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Magic School AI Prompt:</h4>
+                <p>"Create a 5E lesson plan for kindergarten students exploring 'What makes things move?' Include sensory exploration activities for the 'Explore' phase using balls, toy cars, and blocks. Students should push and pull objects and describe what they observe. Provide simple vocabulary words like 'push,' 'pull,' 'fast,' and 'slow.' Include a way for students to record observations through drawings."</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Kindergarten-Specific AI Applications</h4>
+                <ul>
+                    <li><strong>Simple Data Tables</strong>: Generate picture-based recording sheets for observations</li>
+                    <li><strong>Vocabulary Development</strong>: Create word cards with images for science concepts</li>
+                    <li><strong>Sensory Activities</strong>: Design safe exploration activities using all five senses</li>
+                    <li><strong>Drawing Prompts</strong>: Generate observation recording templates</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Data Table Generator Prompt:</h4>
+                <p>"Create a simple data collection sheet for kindergarten students studying living vs. nonliving things. Include pictures of 6 objects (3 living, 3 nonliving) with spaces for students to circle 'living' or 'not living' and draw one thing they notice about each object."</p>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Kindergarten AI Tips</h4>
+                <ul>
+                    <li>Request visual, picture-based materials rather than text-heavy resources</li>
+                    <li>Ask for activities that involve movement and hands-on exploration</li>
+                    <li>Include prompts for teacher questions that encourage observation</li>
+                    <li>Request simple, concrete vocabulary appropriate for 5-6 year olds</li>
+                </ul>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>How can AI tools help you create more engaging sensory exploration activities for kindergarten science?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="grade1" class="content-section">
+            <h2>Grade 1: Building Scientific Thinking with AI</h2>
+            
+            <div class="key-points">
+                <h3>Grade 1 Science Focus Areas</h3>
+                <ul>
+                    <li><strong>Forces and Motion</strong>: Understanding pushes, pulls, and motion effects</li>
+                    <li><strong>Plant and Animal Needs</strong>: Investigating basic survival requirements</li>
+                    <li><strong>Earth Materials</strong>: Exploring properties of rocks, soil, and water</li>
+                    <li><strong>Natural Resources</strong>: Understanding human use and conservation</li>
+                </ul>
+            </div>
+
+            <div class="grade-example">
+                <h5>AI-Generated Investigation: "Testing Soil Types for Plant Growth"</h5>
+                <p><strong>Using Project Based Learning Tool:</p>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Magic School AI Prompt:</h4>
+                <p>"Create a project-based learning activity for 1st graders exploring how different soil types affect plant growth. Students should plant seeds in sand, clay, and potting soil. Include a simple hypothesis worksheet where students predict which soil will work best and why. Provide a weekly observation chart with spaces for drawings and simple measurements using non-standard units like paper clips."</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Grade 1 AI Tool Applications</h4>
+                <ul>
+                    <li><strong>Fair Test Introductions</strong>: Generate activities that introduce controlled variables</li>
+                    <li><strong>Prediction Practice</strong>: Create hypothesis templates with picture support</li>
+                    <li><strong>Simple Measurements</strong>: Design data sheets using non-standard units</li>
+                    <li><strong>Cause and Effect</strong>: Generate "because...then..." reasoning activities</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>DOK Question Generator Prompt:</h4>
+                <p>"Generate DOK questions for 1st graders learning about what plants need to grow. Include Level 1 (Recall): 'What do plants need to live?' Level 2 (Skill/Concept): 'Compare how plants grow with and without water.' Level 3 (Strategic Thinking): 'Design an experiment to test if plants need light to grow.'"</p>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Grade 1 Differentiation with AI</h4>
+                <p>Use AI to create multiple versions of the same activity - one with more picture support for emerging readers, and another with simple sentences for developing readers. Always include hands-on components that don't require reading.</p>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>How might AI-generated materials help first graders understand the concept of "fair testing" in science investigations?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="grade2" class="content-section">
+            <h2>Grade 2: Expanding Scientific Reasoning with AI</h2>
+            
+            <div class="key-points">
+                <h3>Grade 2 Science Focus Areas</h3>
+                <ul>
+                    <li><strong>States of Matter</strong>: Exploring solids, liquids, and changes between them</li>
+                    <li><strong>Sound and Vibration</strong>: Investigating how sound is produced and travels</li>
+                    <li><strong>Animal Life Cycles</strong>: Comparing different animal development patterns</li>
+                    <li><strong>Weather Patterns</strong>: Collecting and analyzing weather data over time</li>
+                </ul>
+            </div>
+
+            <div class="grade-example">
+                <h5>AI-Generated Data Analysis: "Tracking Water Changes"</h5>
+                <p><strong>Using Data Table Analysis Generator:</p>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Magic School AI Prompt:</h4>
+                <p>"Generate a data table for 2nd graders tracking water in different containers over one week. Create data for water in a wide bowl, narrow jar, and covered container. Show daily measurements in cups. Include 4 analysis questions: Which container lost the most water? Which lost the least? What patterns do you notice? What might cause the differences?"</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Grade 2 AI Tool Applications</h4>
+                <ul>
+                    <li><strong>Pattern Recognition</strong>: Generate data sets that show clear trends over time</li>
+                    <li><strong>Comparative Analysis</strong>: Create activities comparing similar phenomena</li>
+                    <li><strong>Model Building</strong>: Design templates for students to create diagrams and models</li>
+                    <li><strong>Variable Control</strong>: Generate lessons that introduce multiple variables</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Science Labs Generator Prompt:</h4>
+                <p>"Create a hands-on lab for 2nd graders investigating how sound is made. Include 5 stations: rubber band guitars, water glasses with different levels, tuning forks, drums made from containers, and kazoos. At each station, students should observe what vibrates and record their findings. Include questions about what happens when vibrations are faster or slower."</p>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Building Scientific Vocabulary</h4>
+                <p>Use Magic School AI to create vocabulary activities that connect new science terms to students' observations. Request activities that use the words in context rather than just definitions.</p>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>How can AI-generated data analysis activities help second graders make connections between their observations and scientific concepts?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="grade3" class="content-section">
+            <h2>Grade 3: Developing Scientific Investigations with AI</h2>
+            
+            <div class="key-points">
+                <h3>Grade 3 Science Focus Areas</h3>
+                <ul>
+                    <li><strong>Matter Properties and Changes</strong>: Investigating solids, liquids, gases and heat effects</li>
+                    <li><strong>Forces and Motion</strong>: Exploring speed, direction, and gravity</li>
+                    <li><strong>Energy Transfer</strong>: Understanding heat, friction, and energy movement</li>
+                    <li><strong>Plant and Animal Structures</strong>: Connecting form to function</li>
+                    <li><strong>Environmental Factors</strong>: Investigating what affects survival</li>
+                </ul>
+            </div>
+
+            <div class="grade-example">
+                <h5>AI-Generated Investigation: "Heat and Matter Changes"</h5>
+                <p><strong>Using 5E Model Lesson Plan Generator:</p>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Magic School AI Prompt:</h4>
+                <p>"Create a 5E lesson plan for 3rd graders investigating how heating and cooling change matter. In the 'Explore' phase, students should safely observe ice melting, water evaporating, and chocolate melting. Include a hypothesis sheet for predictions and a data table to record temperature and state changes over time. The 'Elaborate' phase should connect to real-world examples like cooking and weather."</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Grade 3 AI Tool Applications</h4>
+                <ul>
+                    <li><strong>Multi-Variable Testing</strong>: Generate experiments that test multiple factors</li>
+                    <li><strong>Hypothesis Formation</strong>: Create templates for testable predictions with reasoning</li>
+                    <li><strong>Data Pattern Analysis</strong>: Design activities that reveal scientific patterns</li>
+                    <li><strong>Scientific Explanations</strong>: Generate prompts for evidence-based conclusions</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Rubric Generator Prompt:</h4>
+                <p>"Create a rubric for a 3rd-grade plant growth experiment. Include criteria for: hypothesis quality (clear prediction with reasoning), experimental design (identifies variables to test and control), data collection (accurate measurements and observations), and scientific explanation (uses evidence to support conclusions). Use 4 performance levels: Beginning, Developing, Proficient, Advanced."</p>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Scaffolding Complex Investigations</h4>
+                <p>Use AI to break complex investigations into smaller, manageable steps. Request investigation planning templates that guide students through each phase of scientific inquiry.</p>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>How can AI tools help you balance giving third graders independence in their investigations while providing the support they still need?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="grade4" class="content-section">
+            <h2>Grade 4: Advanced Scientific Practices with AI</h2>
+            
+            <div class="key-points">
+                <h3>Grade 4 Science Focus Areas</h3>
+                <ul>
+                    <li><strong>Energy Forms</strong>: Investigating light, sound, heat, and electrical energy</li>
+                    <li><strong>Forces and Interactions</strong>: Exploring magnetic and electrical forces</li>
+                    <li><strong>Wave Properties</strong>: Understanding light behavior and interactions</li>
+                    <li><strong>Animal Adaptations</strong>: Connecting structure to survival advantages</li>
+                    <li><strong>Earth's History</strong>: Using fossils to understand environmental changes</li>
+                </ul>
+            </div>
+
+            <div class="grade-example">
+                <h5>AI-Generated Engineering Challenge: "Circuit Design Investigation"</h5>
+                <p><strong>Using Project Based Learning Tool:</p>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Magic School AI Prompt:</h4>
+                <p>"Create a project-based learning activity for 4th graders designing circuits to solve a problem: 'Create a circuit that can light up a model house with a switch to turn lights on and off.' Students should test different materials as conductors, design circuit diagrams, build and test their circuits, and present solutions. Include a troubleshooting guide for common circuit problems."</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Grade 4 AI Tool Applications</h4>
+                <ul>
+                    <li><strong>System Thinking</strong>: Generate activities that show how components work together</li>
+                    <li><strong>Design Challenges</strong>: Create engineering problems based on scientific principles</li>
+                    <li><strong>Evidence-Based Arguments</strong>: Design activities requiring data-supported claims</li>
+                    <li><strong>Abstract Reasoning</strong>: Generate investigations of invisible phenomena</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Data Table Analysis Generator Prompt:</h4>
+                <p>"Generate a data table for 4th graders testing animal adaptations. Show data for 5 animals (arctic fox, desert fox, tropical bird, penguin, camel) with columns for habitat temperature, body features (fur thickness, ear size, body size), and survival advantages. Include 5 analysis questions that require students to identify patterns between environment and adaptations."</p>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Connecting Investigations to Real Science</h4>
+                <p>Use AI to generate connections between classroom investigations and current scientific research. Request examples of how professional scientists study similar questions.</p>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>How can AI-generated engineering challenges help fourth graders connect their scientific understanding to real-world problem solving?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="grade5" class="content-section">
+            <h2>Grade 5: Independent Scientific Thinking with AI</h2>
+            
+            <div class="key-points">
+                <h3>Grade 5 Science Focus Areas</h3>
+                <ul>
+                    <li><strong>Matter Conservation</strong>: Investigating chemical and physical changes</li>
+                    <li><strong>Forces and Motion</strong>: Understanding gravity, friction, and mass effects</li>
+                    <li><strong>Body Systems</strong>: Exploring how human systems work together</li>
+                    <li><strong>Ecosystem Interactions</strong>: Understanding producer/consumer relationships</li>
+                    <li><strong>Earth Systems</strong>: Investigating weather, climate, and water cycle</li>
+                </ul>
+            </div>
+
+            <div class="grade-example">
+                <h5>AI-Generated Scientific Investigation: "Ecosystem Balance Study"</h5>
+                <p><strong>Using Science Labs Generator:</p>
+            </div>
+
+            <div class="prompt-box">
+                <h4>Magic School AI Prompt:</h4>
+                <p>"Create a lab investigation for 5th graders studying ecosystem balance. Students should design an experiment using aquatic plants and small organisms to model how changes in one population affect others. Include materials list, safety procedures, data collection sheets for population counts over 3 weeks, and analysis questions about population interactions and environmental factors."</p>
+            </div>
+
+            <div class="tool-card">
+                <h4>Grade 5 AI Tool Applications</h4>
+                <ul>
+                    <li><strong>Independent Investigation Design</strong>: Generate frameworks for student-planned experiments</li>
+                    <li><strong>Complex Data Analysis</strong>: Create multi-variable datasets requiring sophisticated thinking</li>
+                    <li><strong>Scientific Modeling</strong>: Design activities for creating and revising explanatory models</li>
+                    <li><strong>Peer Review Process</strong>: Generate protocols for students to evaluate each other's work</li>
+                </ul>
+            </div>
+
+            <div class="prompt-box">
+                <h4>DOK Question Generator Prompt:</h4>
+                <p>"Generate DOK Level 4 (Extended Thinking) questions for 5th graders studying matter conservation during chemical changes. Questions should require students to design investigations, analyze multiple data sources, synthesize information, and apply knowledge to novel situations over an extended time period."</p>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Preparing for Middle School Science</h4>
+                <p>Use AI to generate activities that require increasing independence and scientific reasoning. Request templates that gradually reduce scaffolding while maintaining high expectations for scientific thinking.</p>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>How can AI tools help you prepare fifth graders for the more independent scientific thinking they'll need in middle school?</strong></p>
+                <p><em>Please share your thoughts on this question in the course discussion board.</em></p>
+            </div>
+        </div>
+
+        <div id="implementation" class="content-section">
+            <h2>Implementation Strategies</h2>
+            
+            <div class="tool-card">
+                <h4>Getting Started: Your 4-Week Plan</h4>
+                <ul>
+                    <li><strong>Week 1</strong>: Set up Magic School AI account and generate your first 5E lesson plan</li>
+                    <li><strong>Week 2</strong>: Create a data analysis activity using the Data Table Generator</li>
+                    <li><strong>Week 3</strong>: Design a hands-on investigation with the Science Labs Generator</li>
+                    <li><strong>Week 4</strong>: Generate a rubric that assesses scientific practices, not just content</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>Best Practices for AI-Generated Science Materials</h4>
+                <ul>
+                    <li><strong>Always Review and Adapt</strong>: AI output needs teacher expertise to ensure accuracy and appropriateness</li>
+                    <li><strong>Safety First</strong>: Double-check all suggested materials and procedures for safety</li>
+                    <li><strong>Align to Standards</strong>: Verify that generated content matches your required standards</li>
+                    <li><strong>Student-Centered Focus</strong>: Ensure activities promote student thinking, not just engagement</li>
+                    <li><strong>Iterative Improvement</strong>: Refine prompts based on what works in your classroom</li>
+                </ul>
+            </div>
+
+            <div class="ai-tip">
+                <h4>Troubleshooting Common AI Issues</h4>
+                <ul>
+                    <li><strong>Vague Output</strong>: Make your prompts more specific with grade level, materials, and objectives</li>
+                    <li><strong>Too Advanced/Simple</strong>: Specify cognitive load and prior knowledge in your prompt</li>
+                    <li><strong>Inaccurate Science</strong>: Always verify scientific accuracy with reliable sources</li>
+                    <li><strong>Poor Fit</strong>: Include details about your specific students and classroom context</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>Building a Library of AI-Generated Resources</h4>
+                <ul>
+                    <li>Save successful prompts for future use and modification</li>
+                    <li>Organize generated materials by topic and grade level</li>
+                    <li>Share effective prompts with colleagues</li>
+                    <li>Document what works well and what needs adjustment</li>
+                    <li>Create a bank of investigation frameworks that can be adapted</li>
+                </ul>
+            </div>
+
+            <div class="tool-card">
+                <h4>Student Safety and Ethics</h4>
+                <ul>
+                    <li>Review all AI-generated activities for age-appropriate content</li>
+                    <li>Ensure investigations use safe materials and procedures</li>
+                    <li>Teach students about AI as a tool that requires critical evaluation</li>
+                    <li>Model how to verify information from any source, including AI</li>
+                    <li>Maintain focus on scientific accuracy and evidence-based thinking</li>
+                </ul>
+            </div>
+
+            <div class="reflection-box">
+                <h4>Discussion Board Question</h4>
+                <p><strong>What is your first step for implementing AI tools in your science teaching? What specific tool will you try first and why?</strong></p>
+                <p><em>Please share your specific implementation plan in the course discussion board.</em></p>
+                <button class="btn" onclick="completeModule()">Complete Module</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'overview';
+        let completedSections = new Set();
+        const totalSections = 9;
+
+        function showTab(tabName) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected content section
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab button
+            event.target.classList.add('active');
+            
+            // Mark section as viewed
+            completedSections.add(currentTab);
+            currentTab = tabName;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progressPercentage = (completedSections.size / totalSections) * 100;
+            document.getElementById('progress').style.width = progressPercentage + '%';
+        }
+
+        function completeModule() {
+            completedSections.add(currentTab);
+            updateProgress();
+            alert('Congratulations! You have completed the Magic School AI for Building Students as Scientists module. You now have practical tools and strategies to leverage AI in creating engaging, inquiry-based science experiences for your K-5 students.');
+        }
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
